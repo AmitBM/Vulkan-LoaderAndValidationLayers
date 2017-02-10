@@ -15167,6 +15167,26 @@ TEST_F(VkLayerTest, InvalidImageViewAspect) {
 }
 
 // mewmew
+TEST_F(VkLayerTest, ExerciseGetImageSubresourceLayout) {
+    TEST_DESCRIPTION("Test robustness of vkGetImageSubresourceLayout() valid usage");
+
+    ASSERT_NO_FATAL_FAILURE(InitState());
+
+    {
+        // image must have tiling of VK_IMAGE_TILING_LINEAR
+        VkImageObj image(m_device);
+		//const VkImageTiling tiling = VK_IMAGE_TILING_LINEAR;  // obeys VU 00732
+		const VkImageTiling tiling = VK_IMAGE_TILING_OPTIMAL;  // violates VU 00732
+		image.init(32, 32, VK_FORMAT_B8G8R8A8_UNORM, VK_IMAGE_USAGE_SAMPLED_BIT, tiling, 0);
+        ASSERT_TRUE(image.initialized());
+
+        VkImageSubresource img_sr = {};
+        VkSubresourceLayout sr_layout = {};
+        m_errorMonitor->SetDesiredFailureMsg(VK_DEBUG_REPORT_ERROR_BIT_EXT, VALIDATION_ERROR_00732);
+        vkGetImageSubresourceLayout(m_device->device(), image.image(), &img_sr, &sr_layout);
+        m_errorMonitor->VerifyFound();
+    }
+}
 
 TEST_F(VkLayerTest, CopyImageLayerCountMismatch) {
     VkResult err;
