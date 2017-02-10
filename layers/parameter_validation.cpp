@@ -2691,6 +2691,7 @@ static bool PreGetImageSubresourceLayout(VkDevice device, const VkImageSubresour
     return true;
 }
 
+// mewmew
 VKAPI_ATTR void VKAPI_CALL GetImageSubresourceLayout(VkDevice device, VkImage image, const VkImageSubresource *pSubresource,
                                                      VkSubresourceLayout *pLayout) {
     bool skip = false;

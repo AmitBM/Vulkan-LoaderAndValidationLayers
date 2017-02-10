@@ -7870,6 +7870,7 @@ VKAPI_ATTR void VKAPI_CALL CmdResolveImage(VkCommandBuffer commandBuffer, VkImag
     }
 }
 
+// mewmew
 VKAPI_ATTR void VKAPI_CALL GetImageSubresourceLayout(VkDevice device, VkImage image, const VkImageSubresource *pSubresource,
     VkSubresourceLayout *pLayout) {
     bool skipCall = false;
